@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.junyou.mapper.JobHunterMapper">
+
+    <resultMap id="JobHunter" type="com.junyou.pojo.JobHunter">
+        <id column="jobhunter_id" property="jobhunterId" jdbcType="INTEGER"/>
+        <result column="jobhunter_name" property="jobhunterName" jdbcType="VARCHAR"/>
+        <result column="jobhunter_job" property="jobhunterJob" jdbcType="VARCHAR"/>
+        <result column="jobhunter_department"  property="jobhunterDepartment" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="selectAllJobhunter" resultMap="JobHunter">
+        select * from jobhunter
+    </select>
+
+    <select id="selectParmJobhunter" resultMap="JobHunter">
+        select * from jobhunter
+        <where>
+            <if test="jobHunter.jobhunterName != null and jobHunter.jobhunterName !=''">
+                and jobhunter_name = #{jobHunter.jobhunterName}
+            </if>
+            <if test="jobHunter.jobhunterJob != null and jobHunter.jobhunterJob != ''">
+                and jobhunter_job = #{jobHunter.jobhunterJob}
+            </if>
+            <if test="jobHunter.jobhunterDepartment != null and jobHunter.jobhunterDepartment !=''">
+                and jobhunter_department = #{jobHunter.jobhunterDepartment}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deletejobHunter">
+        delete  from jobhunter where jobhunter_id = #{jobhunterId}
+    </delete>
+
+    <insert id="addjobHunter" parameterType="com.junyou.pojo.JobHunter">
+        insert into jobhunter (jobhunter_name, jobhunter_job, jobhunter_department) values (#{jobhunterName},#{jobhunterJob},#{jobhunterDepartment})
+    </insert>
+
+
+
+</mapper>

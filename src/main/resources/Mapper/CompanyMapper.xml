@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.junyou.mapper.CompanyMapper">
+    <resultMap id="Company" type="com.junyou.pojo.Company">
+        <id column="companyId" property="companyId" jdbcType="INTEGER"/>
+        <result column="companyName" property="companyName" jdbcType="VARCHAR"/>
+        <result column="companyLogo" property="companyLogo" jdbcType="INTEGER"/>
+        <result column="description"  property="description" jdbcType="LONGNVARCHAR"/>
+        <result column="state"  property="state" jdbcType="INTEGER"/>
+        <result column="companyCode"  property="companyCode" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="selectAllCompany" resultMap="Company">
+        SELECT * FROM company
+    </select>
+
+    <select id="selectParmCompany" resultMap="Company">
+        select * from company
+        <where>
+            <if test="company.companyName != null and company.companyName !=''">
+                and companyName like CONCAT('%',#{company.companyName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="company.description != null and company.description != ''">
+                and description like CONCAT('%',#{company.description,jdbcType=LONGNVARCHAR},'%')
+            </if>
+            <if test="company.companyCode != null and company.companyCode !=''">
+                and companyCode like CONCAT('%',#{company.companyCode,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteCompany">
+        delete  from company where companyId = #{companyId}
+    </delete>
+
+    <insert id="addCompany" parameterType="com.junyou.pojo.Company">
+        insert into company (companyName, companyLogo, description,state,companyCode) values (#{companyName},#{companyLogo},#{description},#{state},#{companyCode})
+    </insert>
+
+</mapper>
